@@ -13,7 +13,7 @@ use Livewire\WithPagination;
 
 class ShowPost extends Component
 {
-    use WithPagination,WithoutUrlPagination;
+    use WithoutUrlPagination,WithPagination;
 
     public Post $post;
 

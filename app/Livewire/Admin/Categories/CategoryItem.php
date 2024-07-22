@@ -41,8 +41,7 @@ class CategoryItem extends Component
 
         if ($this->name == '') {
             $this->name = $this->category->name;
-        }
-        elseif ($this->category->name != $this->name) {
+        } elseif ($this->category->name != $this->name) {
             $this->validate();
             $this->category->update(['name' => $this->name]);
         }

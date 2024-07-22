@@ -4,8 +4,10 @@ namespace App\Livewire\Comments;
 
 use App\Models\Comment;
 use App\Models\User;
+use App\Notifications\CommentDeleted;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\RateLimiter;
 use Livewire\Attributes\Validate;
 use Livewire\Component;
 
@@ -33,18 +35,28 @@ class ShowComment extends Component
     public function delete()
     {
         $this->authorize('delete', $this->comment);
+        if (Auth::id() != $this->comment->user_id) {
+            $this->comment->user->notify(new CommentDeleted($this->comment));
+        }
         $this->comment->delete();
+
         return redirect()->to('/posts/'.$this->comment->post_id);
     }
 
-    public function save() {
+    public function save()
+    {
         $this->authorize('update', $this->comment);
 
         if ($this->content == '') {
             $this->content = $this->comment->content;
-        }
-        elseif ($this->comment->content != $this->content) {
+        } elseif ($this->comment->content != $this->content) {
             $this->validate();
+            $user = Auth::id();
+            if (RateLimiter::tooManyAttempts('edit-comment:'.$user, 10)) {
+                abort(429, 'Too many updates!');
+            }
+
+            RateLimiter::increment('edit-comment:'.$user, 3600);
             $this->comment->update(['content' => $this->content]);
         }
         $this->updating = false;

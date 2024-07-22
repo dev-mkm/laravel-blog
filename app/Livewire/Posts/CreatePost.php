@@ -28,7 +28,8 @@ class CreatePost extends Component
 
     public Collection $categories;
 
-    public function mount($post = null) {
+    public function mount($post = null)
+    {
         $this->categories = Category::all();
         if (isset($post)) {
             $this->post = $post;
@@ -37,11 +38,14 @@ class CreatePost extends Component
             $this->category = $post->category_id;
         } else {
             $cat = $this->categories->first();
-            if (isset($cat)) $this->category = $cat->id;
+            if (isset($cat)) {
+                $this->category = $cat->id;
+            }
         }
     }
 
-    public function save() {
+    public function save()
+    {
         $this->validate();
         if (isset($this->post)) {
             $this->authorize('update', $this->post);
@@ -50,16 +54,16 @@ class CreatePost extends Component
                 abort(429, 'Too many updates!');
             }
 
-            RateLimiter::increment('create-post:'.$user, 3600);
+            RateLimiter::increment('edit-post:'.$user, 3600);
             $this->post->update([
                 'title' => $this->title,
                 'category_id' => $this->category,
                 'content' => $this->content,
-                'noformat' => $this->noformat
+                'noformat' => $this->noformat,
             ]);
+
             return redirect()->to('/posts/'.$this->post->id);
-        }
-        else {
+        } else {
             $this->authorize('create', Post::class);
             $user = Auth::id();
             if (RateLimiter::tooManyAttempts('create-post:'.$user, 5)) {
@@ -72,8 +76,9 @@ class CreatePost extends Component
                 'title' => $this->title,
                 'category_id' => $this->category,
                 'content' => $this->content,
-                'noformat' => $this->noformat
+                'noformat' => $this->noformat,
             ])->id;
+
             return redirect()->to('/posts/'.$id);
         }
     }

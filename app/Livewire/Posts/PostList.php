@@ -13,17 +13,18 @@ class PostList extends Component
 {
     use WithPagination;
 
-    public string $title = "Posts";
+    public string $title = 'Posts';
 
     public array $author;
 
     public Category $category;
 
-    public function mount($category = null, $user = null) {
-        if(isset($category)) {
+    public function mount($category = null, $user = null)
+    {
+        if (isset($category)) {
             $this->category = $category;
         }
-        if(isset($user)) {
+        if (isset($user)) {
             $this->author = User::findOrFail($user)->only(['id', 'name']);
         }
     }
@@ -33,14 +34,14 @@ class PostList extends Component
     {
         $post = Post::select();
         $title = 'Posts';
-        if(isset($this->category)) {
+        if (isset($this->category)) {
             $post = $post->where('category_id', $this->category->id);
             $title = 'Category | '.$this->category->name;
-        }
-        elseif (isset($this->author)) {
+        } elseif (isset($this->author)) {
             $post = $post->where('user_id', $this->author['id']);
             $title = 'Author | '.$this->author['name'];
         }
+
         return view('livewire.posts.post-list', [
             'posts' => $post->paginate(15),
         ])->title($title);

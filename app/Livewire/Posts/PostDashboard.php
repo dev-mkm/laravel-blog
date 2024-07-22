@@ -3,6 +3,7 @@
 namespace App\Livewire\Posts;
 
 use App\Models\Post;
+use App\Notifications\PostDeleted;
 use Illuminate\Support\Facades\Auth;
 use Livewire\Attributes\Locked;
 use Livewire\Component;
@@ -19,6 +20,9 @@ class PostDashboard extends Component
     public function delete()
     {
         $this->authorize('delete', $this->post);
+        if (Auth::id() != $this->post->user_id) {
+            $this->post->user->notify(new PostDeleted($this->post));
+        }
         $this->post->delete();
 
         return redirect()->to('/dashboard');
@@ -27,6 +31,7 @@ class PostDashboard extends Component
     public function update()
     {
         $this->authorize('update', $this->post);
+
         return redirect()->to('/dashboard/edit-post/'.$this->post->id);
     }
 

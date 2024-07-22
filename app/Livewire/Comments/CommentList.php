@@ -10,13 +10,13 @@ use Livewire\WithPagination;
 
 class CommentList extends Component
 {
-    use WithPagination,WithoutUrlPagination;
+    use WithoutUrlPagination,WithPagination;
 
     #[Layout('layouts.app')]
     public function render()
     {
         return view('livewire.comments.comment-list', [
-            'comments' => Auth::user()->comments()->paginate(10)
+            'comments' => Auth::user()->comments()->paginate(10),
         ]);
     }
 }

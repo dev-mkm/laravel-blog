@@ -11,11 +11,12 @@ use Livewire\WithPagination;
 
 class Dashboard extends Component
 {
-    use WithPagination,WithoutUrlPagination;
+    use WithoutUrlPagination,WithPagination;
 
     private User $user;
 
-    public function mount($user = null) {
+    public function mount($user = null)
+    {
         if (isset($user)) {
             $user = User::findOrFail($user);
             $this->authorize('view', $user);
@@ -28,8 +29,8 @@ class Dashboard extends Component
     #[Layout('layouts.app')]
     public function render()
     {
-        return view('livewire.dashboard',[
-            'posts' => $this->user->posts()->paginate(10)
+        return view('livewire.dashboard', [
+            'posts' => $this->user->posts()->paginate(10),
         ]);
     }
 }

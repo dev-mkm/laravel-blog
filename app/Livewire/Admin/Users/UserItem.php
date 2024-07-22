@@ -45,7 +45,7 @@ class UserItem extends Component
 
         if (! $this->admin) {
             $this->user->update([
-                'admin' => true
+                'admin' => true,
             ]);
         } else {
             abort(400, 'User is already admin');

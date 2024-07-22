@@ -21,7 +21,7 @@ Route::view('profile', 'profile')
 Route::get('/', PostList::class)->name('posts-list');
 Route::get('/cat/{category}', PostList::class)->name('cat-posts');
 Route::get('/author/{user}', PostList::class)->name('author-posts');
-Route::get('/posts/{post}', ShowPost::class)->name('view-post');;
+Route::get('/posts/{post}', ShowPost::class)->name('view-post');
 
 require __DIR__.'/auth.php';
 require __DIR__.'/admin.php';
