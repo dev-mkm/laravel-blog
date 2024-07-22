@@ -5,6 +5,7 @@ namespace App\Livewire\Comments;
 use App\Models\Comment;
 use App\Models\Post;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\RateLimiter;
 use Livewire\Attributes\Locked;
 use Livewire\Attributes\Validate;
 use Livewire\Component;
@@ -27,6 +28,14 @@ class CreateComment extends Component
     public function save() {
         $this->validate();
         $this->authorize('create', Comment::class);
+        $user = Auth::id();
+        if (RateLimiter::tooManyAttempts('create-comment:'.$this->post_id.'.'.$user, 3) ||
+        RateLimiter::tooManyAttempts('create-comment:'.$user, 10)) {
+            abort(429, 'Too many comments!');
+        }
+
+        RateLimiter::increment('create-comment:'.$this->post_id.'.'.$user, 10800);
+        RateLimiter::increment('create-comment:'.$user, 3600);
         Comment::create([
             'user_id' => Auth::user()->id,
             'post_id' => $this->post_id,
