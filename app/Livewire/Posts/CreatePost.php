@@ -12,24 +12,25 @@ use Livewire\Component;
 
 class CreatePost extends Component
 {
-    private ?int $id = null;
+    public Post $post;
 
     #[Validate('required|string|min:3')]
     public string $title;
 
     public string $content;
 
-    public array $noformat;
+    #[Validate('required|string|min:50')]
+    public string $noformat;
 
     #[Validate('required|exists:categories,id')]
     public int $category;
 
     public Collection $categories;
 
-    public function mount(?Post $post) {
+    public function mount($post = null) {
         $this->categories = Category::all();
         if (isset($post)) {
-            $this->id = $post->id;
+            $this->post = $post;
             $this->title = $post->title;
             $this->content = $post->content;
             $this->category = $post->category_id;
@@ -41,25 +42,27 @@ class CreatePost extends Component
 
     public function save() {
         $this->validate();
-        if (isset($this->id)) {
-            Post::update([
-                'id' => $this->id,
+        if (isset($this->post)) {
+            $this->authorize('update', $this->post);
+            $this->post->update([
                 'title' => $this->title,
                 'category_id' => $this->category,
                 'content' => $this->content,
-                'noformat' => json_encode($this->noformat)
+                'noformat' => $this->noformat
             ]);
+            return redirect()->to('/posts/'.$this->post->id);
         }
         else {
-            $this->id = Post::create([
+            $this->authorize('create', Post::class);
+            $id = Post::create([
                 'user_id' => Auth::user()->id,
                 'title' => $this->title,
                 'category_id' => $this->category,
                 'content' => $this->content,
-                'noformat' => json_encode($this->noformat)
+                'noformat' => $this->noformat
             ])->id;
+            return redirect()->to('/posts/'.$id);
         }
-        return redirect()->to('/posts/'.$this->id);
     }
 
     #[Layout('layouts.app')]

@@ -30,6 +30,7 @@ class PostDashboard extends Component
 
     public function mount(Post $post)
     {
+        $this->authorize('update', $post);
         $this->post = $post;
         $this->count = $post->comments()->count();
     }

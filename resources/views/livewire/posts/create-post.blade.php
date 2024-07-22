@@ -1,13 +1,13 @@
 <x-slot name="header">
     <h2 class="font-semibold text-xl text-gray-800 dark:text-gray-200 leading-tight">
-        {{ __('Dashboard') }}
+        {{ __('Create Post') }}
     </h2>
 </x-slot>
 
 <div class="py-12">
     <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
         <div class="p-4 sm:p-8 bg-white dark:bg-gray-800 shadow sm:rounded-lg">
-            <div class="max-w-2xl">
+            <div class="max-w-3xl">
                 <section>
                     <header>
                         <h2 class="text-lg font-medium text-gray-900 dark:text-gray-100">
@@ -37,8 +37,8 @@
                         <div>
                             <x-input-label for="content" :value="__('Content')" />
                             <input type="hidden" value="{{$content}}" name="content" id="content" />
-                            <trix-editor input="content" class="border-gray-300 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300 focus:border-indigo-500 dark:focus:border-indigo-600 focus:ring-indigo-500 dark:focus:ring-indigo-600 rounded-md shadow-sm"></trix-editor>
-                            <x-input-error class="mt-2" :messages="$errors->get('content')" />
+                            <trix-editor input="content" class="overflow-auto border-gray-300 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300 focus:border-indigo-500 dark:focus:border-indigo-600 focus:ring-indigo-500 dark:focus:ring-indigo-600 rounded-md shadow-sm"></trix-editor>
+                            <x-input-error class="mt-2" :messages="$errors->get('noformat')" />
                         </div>
 
                         <div class="flex items-center gap-4">
@@ -50,7 +50,7 @@
                         addEventListener('trix-change', function () {
                             var element = document.querySelector("trix-editor")
                             $wire.content = element.value
-                            $wire.noformat = element.editor.getDocument()
+                            $wire.noformat = element.editor.getDocument().toString()
                         })
                     </script>
                     @endscript

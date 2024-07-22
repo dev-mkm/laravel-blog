@@ -14,13 +14,14 @@ class PostItem extends Component
 
     public string $summary;
 
-    public User $author;
+    public array $author;
 
     public Category $category;
 
     public function mount(Post $post)
     {
-        $this->author = User::find($post->user_id);
+        $this->authorize('view', $post);
+        $this->author = User::find($post->user_id)->only(['id', 'name']);
         $this->category = Category::find($post->category_id);
         $this->post = $post;
         $this->summary = Str::of($post->noformat)->limit(100);

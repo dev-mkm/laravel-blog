@@ -6,7 +6,6 @@ use App\Models\Category;
 use App\Models\Post;
 use App\Models\User;
 use Livewire\Attributes\Layout;
-use Livewire\Attributes\Url;
 use Livewire\Component;
 use Livewire\WithPagination;
 
@@ -16,7 +15,7 @@ class PostList extends Component
 
     public string $title = "Posts";
 
-    public User $author;
+    public array $author;
 
     public Category $category;
 
@@ -25,7 +24,7 @@ class PostList extends Component
             $this->category = $category;
         }
         if(isset($user)) {
-            $this->author = User::findOrFail($user);
+            $this->author = User::findOrFail($user)->only(['id', 'name']);
         }
     }
 
@@ -39,8 +38,8 @@ class PostList extends Component
             $title = 'Category | '.$this->category->name;
         }
         elseif (isset($this->author)) {
-            $post = $post->where('user_id', $this->author->id);
-            $title = 'Author | '.$this->author->name;
+            $post = $post->where('user_id', $this->author['id']);
+            $title = 'Author | '.$this->author['name'];
         }
         return view('livewire.posts.post-list', [
             'posts' => $post->paginate(15),

@@ -12,14 +12,15 @@ class ShowPost extends Component
 {
     public Post $post;
 
-    public User $author;
+    public array $author;
 
     public Collection $comments;
 
     public function mount(Post $post)
     {
+        $this->authorize('view', $post);
         $this->post = $post;
-        $this->author = User::find($post->user_id);
+        $this->author = User::find($post->user_id)->only(['id', 'name']);
         $this->comments = $post->comments()->get();
     }
 

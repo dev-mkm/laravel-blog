@@ -19,6 +19,8 @@ class CategoryItem extends Component
 
     public function delete()
     {
+        $this->authorize('delete', $this->category);
+
         $this->category->delete();
 
         return redirect()->to('/dashboard/categories');
@@ -35,6 +37,8 @@ class CategoryItem extends Component
 
     public function update()
     {
+        $this->authorize('update', $this->category);
+
         if ($this->name == '') {
             $this->name = $this->category->name;
         }

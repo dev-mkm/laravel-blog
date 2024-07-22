@@ -13,6 +13,8 @@ class CreateCategory extends Component
 
     public function save()
     {
+        $this->authorize('create', Category::class);
+
         $this->validate();
 
         Category::create([

@@ -25,5 +25,5 @@ export default {
         },
     },
 
-    plugins: [forms, require("kutty"), require("@tailwindcss/typography")],
+    plugins: [forms],
 };
