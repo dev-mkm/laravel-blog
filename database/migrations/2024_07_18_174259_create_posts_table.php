@@ -13,14 +13,15 @@ return new class extends Migration
     {
         Schema::create('categories', function (Blueprint $table) {
             $table->id();
-            $table->string('name');
+            $table->string('name')->unique();
         });
         Schema::create('posts', function (Blueprint $table) {
             $table->id();
             $table->string('title');
             $table->foreignId('user_id')->constrained()->cascadeOnDelete();
-            $table->foreignId('category_id')->constrained();
+            $table->foreignId('category_id')->constrained()->cascadeOnDelete();
             $table->text('content');
+            $table->text('noformat');
             $table->timestamps();
         });
         Schema::create('comments', function (Blueprint $table) {

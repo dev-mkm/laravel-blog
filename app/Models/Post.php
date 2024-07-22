@@ -23,7 +23,7 @@ class Post extends Model
      *
      * @var array
      */
-    protected $fillable = ['title', 'user_id', 'content'];
+    protected $fillable = ['title', 'user_id', 'content', 'noformat', 'category_id'];
 
     /**
      * Get the author of the post.

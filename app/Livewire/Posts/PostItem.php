@@ -2,28 +2,30 @@
 
 namespace App\Livewire\Posts;
 
+use App\Models\Category;
 use App\Models\Post;
+use App\Models\User;
+use Illuminate\Support\Str;
 use Livewire\Component;
 
 class PostItem extends Component
 {
-    private $id;
+    public Post $post;
 
-    public $title;
+    public string $summary;
 
-    public $author;
+    public User $author;
 
-    public $category;
+    public Category $category;
 
-    public $content;
-
-    public function mount(Post $post) {
-        $this->author = $post->author;
-        $this->category = $post->category;
-        $this->fill(
-            $post->only('id', 'title', 'content'),
-        );
+    public function mount(Post $post)
+    {
+        $this->author = User::find($post->user_id);
+        $this->category = Category::find($post->category_id);
+        $this->post = $post;
+        $this->summary = Str::of($post->noformat)->limit(100);
     }
+
     public function render()
     {
         return view('livewire.posts.post-item');

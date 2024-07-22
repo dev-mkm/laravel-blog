@@ -11,11 +11,19 @@ export default {
 
     theme: {
         extend: {
+            colors: {
+                primary: {
+                    light: "#fefcbf", // For lighter primary color
+                    DEFAULT: "#b7791f", // Normal primary color
+                    dark: "#744210", // Used for hover, active, etc.
+                },
+            },
+
             fontFamily: {
                 sans: ['Figtree', ...defaultTheme.fontFamily.sans],
             },
         },
     },
 
-    plugins: [forms],
+    plugins: [forms, require("kutty"), require("@tailwindcss/typography")],
 };
