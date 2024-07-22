@@ -17,7 +17,7 @@ class Comment extends Model
      *
      * @var array
      */
-    protected $fillable = ['post_id', 'user_id', 'reply_id', 'content'];
+    protected $fillable = ['post_id', 'user_id', 'content'];
 
     /**
      * Get the writer of the comment.
@@ -41,21 +41,5 @@ class Comment extends Model
     public function replies(): HasMany
     {
         return $this->hasMany(Comment::class, 'reply_id');
-    }
-
-    /**
-     * Get the comment's parent.
-     */
-    public function parent(): BelongsTo
-    {
-        return $this->belongsTo(Comment::class, 'reply_id')->withDefault();
-    }
-
-    /**
-     * Scope a query to only include main components.
-     */
-    public function scopeMain(Builder $query): void
-    {
-        $query->where('reply_id', null);
     }
 }

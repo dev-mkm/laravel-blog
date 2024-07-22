@@ -8,7 +8,9 @@
     <th class="border border-slate-600 px-2">
     <div class="flex content-center justify-center h-full">
     <x-secondary-button class="m-2" wire:click="view">view</x-secondary-button>
+    @if ($owned)
     <x-primary-button class="m-2" wire:click="update">update</x-primary-button>
+    @endif
     <x-danger-button class="m-2" wire:click="delete"
         wire:confirm="Are you sure you want to delete this post?">delete</x-danger-button>
     </div>

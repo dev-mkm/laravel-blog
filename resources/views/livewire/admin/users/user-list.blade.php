@@ -8,7 +8,7 @@
     <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
         <div class="p-4 sm:p-8 bg-white dark:bg-gray-800 shadow sm:rounded-lg overflow-auto">
 
-            <table class="w-full border-collapse border border-slate-500 table-auto cols-2">
+            <table class="w-full mb-4 border-collapse border border-slate-500 table-auto cols-2">
                 <tr>
                     <th class="border border-slate-600 px-4 py-2">ID</th>
                     <th class="border border-slate-600 px-4 py-2">Name</th>
@@ -24,6 +24,7 @@
                     <livewire:admin.users.user-item :$user />
                 @endforeach
             </table>
+            {{$users->links()}}
         </div>
     </div>
 </div>

@@ -1,13 +1,13 @@
 <?php
 
-namespace App\Livewire\Admin;
+namespace App\Livewire\Admin\Categories;
 
 use App\Models\Category;
 use Illuminate\Database\Eloquent\Collection;
 use Livewire\Attributes\Layout;
 use Livewire\Component;
 
-class Panel extends Component
+class CategoryList extends Component
 {
     public Collection $categories;
 
@@ -19,6 +19,6 @@ class Panel extends Component
     #[Layout('layouts.app')]
     public function render()
     {
-        return view('livewire.admin.panel');
+        return view('livewire.admin.categories.category-list');
     }
 }

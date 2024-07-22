@@ -21,6 +21,11 @@ class UserItem extends Component
     #[Locked]
     public bool $admin;
 
+    public function view()
+    {
+        return redirect()->to('/dashboard/users/'.$this->user->id);
+    }
+
     public function delete()
     {
         $this->authorize('delete', $this->user);

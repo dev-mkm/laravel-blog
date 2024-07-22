@@ -39,6 +39,11 @@ new class extends Component
                         {{ __('Create Post') }}
                     </x-nav-link>
                 </div>
+                <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
+                    <x-nav-link :href="route('dashboard.comments')" :active="request()->routeIs('dashboard.comments')" wire:navigate>
+                        {{ __('Comments') }}
+                    </x-nav-link>
+                </div>
                 @admin
                 <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
                     <x-nav-link :href="route('admin.categories')" :active="request()->routeIs('admin.categories')" wire:navigate>
@@ -105,6 +110,11 @@ new class extends Component
         <div class="pt-2 pb-3 space-y-1">
             <x-responsive-nav-link :href="route('dashboard.create-post')" :active="request()->routeIs('dashboard.create-post')" wire:navigate>
                 {{ __('Create Post') }}
+            </x-responsive-nav-link>
+        </div>
+        <div class="pt-2 pb-3 space-y-1">
+            <x-responsive-nav-link :href="route('dashboard.comments')" :active="request()->routeIs('dashboard.comments')" wire:navigate>
+                {{ __('Comments') }}
             </x-responsive-nav-link>
         </div>
         @admin

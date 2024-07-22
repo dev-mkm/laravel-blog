@@ -1,6 +1,8 @@
 <tr>
     <th class="border border-slate-600 px-4 py-2">{{$user->id}}</th>
-    <th class="border border-slate-600 px-4 py-2">{{$user->name}}</th>
+    <th class="border border-slate-600 px-4 py-2"><a wire:click="view">
+        {{$user->name}}
+    </a></th>
     <th class="border border-slate-600 px-4 py-2">{{$user->email}}</th>
     <th class="border border-slate-600 px-4 py-2">{{$postcount}}</th>
     <th class="border border-slate-600 px-4 py-2">{{$commentcount}}</th>
@@ -16,9 +18,7 @@
     <th class="border border-slate-600 px-4 py-2">{{$user->updated_at}}</th>
     <th class="border border-slate-600 px-4 py-2">{{$user->created_at}}</th>
     <th class="border border-slate-600 px-2">
-        <div class="flex flex-col content-center justify-center h-full">
-        <x-secondary-button class="m-2" wire:click="block"
-            wire:confirm="Are you sure you want to block this user?">block</x-secondary-button>
+        <div class="flex content-center justify-center h-full">
         @if (!$admin)
         <x-primary-button class="m-2" wire:click="promote"
             wire:confirm="Are you sure you want to promote this user to admin?">promote</x-primary-button>
